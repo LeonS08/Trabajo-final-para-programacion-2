@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Reservas de Hotel</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+    <h1>Sistema de Reservas de Hotel</h1>
+    <div class="login-container">
+        <form id="formularioLogin">
+            <label for="usuario">Usuario:</label>
+            <input type="text" id="usuario" required>
+            <label for="rol">Rol:</label>
+            <select id="rol" required>
+                <option value="admin">Administrador</option>
+                <option value="empleado">Empleado</option>
+                <option value="cliente">Cliente</option>
+            </select>
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
