@@ -1,66 +1,155 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const formularioLogin = document.getElementById('formularioLogin');
-    const formularioReservas = document.getElementById('formularioReservas');
-    const tablaReservas = document.getElementById('tablaReservas')?.getElementsByTagName('tbody')[0];
+    // Inicializar habitaciones si no están ya en el localStorage
+    if (!localStorage.getItem('habitaciones')) {
+        const habitaciones = Array.from({ length: 30 }, (_, index) => ({ id: index + 1, ocupada: false, cliente: null, tiempo: 0 }));
+        localStorage.setItem('habitaciones', JSON.stringify(habitaciones));
+    }
 
-    if (formularioLogin) {
-        formularioLogin.addEventListener('submit', function(event) {
+    // Otros códigos...
+
+    if (formularioAsignarHabitacion) {
+        formularioAsignarHabitacion.addEventListener('submit', function(event) {
             event.preventDefault();
-            const usuario = document.getElementById('usuario').value;
-            const rol = document.getElementById('rol').value;
-            if (rol === 'admin') {
-                window.location.href = 'admin.html';
-            } else if (rol === 'empleado') {
-                window.location.href = 'empleado.html';
-            } else if (rol === 'cliente') {
-                window.location.href = 'cliente.html';
-            }
+            const nombreCliente = document.getElementById('nombreCliente').value;
+            const tiempo = parseInt(document.getElementById('tiempoAsignacion').value, 10);
+
+            asignarHabitacion(nombreCliente, tiempo);
         });
     }
 
-    if (formularioReservas) {
-        formularioReservas.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const nombre = document.getElementById('nombreReserva').value;
-            const habitacion = document.getElementById('habitacionReserva').value;
-            agregarReserva(nombre, habitacion);
-        });
+    if (tablaHabitacionesEmpleado) {
+        poblarHabitacionesEmpleado();
     }
 
-    if (tablaReservas) {
-        poblarReservas();
+    if (tablaHabitaciones) {
+        poblarHabitacionesAdmin();
     }
 
-    function agregarReserva(nombre, habitacion) {
+    function asignarHabitacion(nombreCliente, tiempo) {
+        const habitaciones = JSON.parse(localStorage.getItem('habitaciones')) || [];
         const reservas = JSON.parse(localStorage.getItem('reservas')) || [];
-        reservas.push({ nombre, habitacion });
-        localStorage.setItem('reservas', JSON.stringify(reservas));
-        poblarReservas();
+
+        // Buscar la primera habitación vacía
+        const habitacion = habitaciones.find(h => !h.ocupada);
+
+        if (habitacion) {
+            habitacion.ocupada = true;
+            habitacion.cliente = nombreCliente;
+            habitacion.tiempo = tiempo;
+            localStorage.setItem('habitaciones', JSON.stringify(habitaciones));
+
+            reservas.push({ nombre: nombreCliente, habitacionId: habitacion.id, tiempo });
+            localStorage.setItem('reservas', JSON.stringify(reservas));
+
+            alert('Habitación asignada con éxito.');
+            poblarHabitacionesEmpleado();
+        } else {
+            alert('No hay habitaciones disponibles.');
+        }
+    }
+
+    function poblarHabitacionesEmpleado() {
+        const habitaciones = JSON.parse(localStorage.getItem('habitaciones')) || [];
+        if (!tablaHabitacionesEmpleado) return;
+        tablaHabitacionesEmpleado.innerHTML = '';
+        habitaciones.forEach(habitacion => {
+            const fila = document.createElement('tr');
+            fila.innerHTML = `
+                <td>${habitacion.id}</td>
+                <td>${habitacion.ocupada ? `Ocupada por ${habitacion.cliente}, Tiempo restante: ${habitacion.tiempo} horas` : 'Disponible'}</td>
+            `;
+            tablaHabitacionesEmpleado.appendChild(fila);
+        });
+    }
+
+    function poblarHabitacionesAdmin() {
+        const habitaciones = JSON.parse(localStorage.getItem('habitaciones')) || [];
+        if (!tablaHabitaciones) return;
+        tablaHabitaciones.innerHTML = '';
+        habitaciones.forEach(habitacion => {
+            const fila = document.createElement('tr');
+            fila.innerHTML = `
+                <td>${habitacion.id}</td>
+                <td>${habitacion.cliente || 'Vacía'}</td>
+                <td>${habitacion.tiempo} horas</td>
+            `;
+            tablaHabitaciones.appendChild(fila);
+        });
+    }
+
+    function asignarReserva(nombre, tiempo) {
+        const habitaciones = JSON.parse(localStorage.getItem('habitaciones')) || [];
+        const reservas = JSON.parse(localStorage.getItem('reservas')) || [];
+        
+        // Buscar la primera habitación vacía
+        const habitacion = habitaciones.find(h => !h.ocupada);
+
+        if (habitacion) {
+            habitacion.ocupada = true;
+            habitacion.cliente = nombre;
+            habitacion.tiempo = tiempo;
+            localStorage.setItem('habitaciones', JSON.stringify(habitaciones));
+
+            reservas.push({ nombre, habitacionId: habitacion.id, tiempo });
+            localStorage.setItem('reservas', JSON.stringify(reservas));
+
+            alert('Reserva asignada con éxito.');
+        } else {
+            alert('No hay habitaciones disponibles.');
+        }
     }
 
     function poblarReservas() {
         const reservas = JSON.parse(localStorage.getItem('reservas')) || [];
-        if (!tablaReservas) return; // Verifica si tablaReservas está definido
+        if (!tablaReservas) return;
         tablaReservas.innerHTML = '';
-        reservas.forEach((reserva, index) => {
+        reservas.forEach(reserva => {
             const fila = document.createElement('tr');
             fila.innerHTML = `
                 <td>${reserva.nombre}</td>
-                <td>${reserva.habitacion}</td>
-                ${formularioReservas ? `<td><button onclick="eliminarReserva(${index})">Eliminar</button></td>` : ''}
+                <td>${reserva.habitacionId}</td>
+                <td>${reserva.tiempo} horas</td>
             `;
             tablaReservas.appendChild(fila);
         });
     }
 
+    function actualizarEstadisticas() {
+        const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+        const empleados = usuarios.filter(user => user.rol === 'empleado');
+        const clientes = usuarios.filter(user => user.rol === 'cliente');
+
+        estadisticas.innerHTML = `
+            Empleados: ${empleados.length} (${empleados.map(e => e.usuario).join(', ')})<br>
+            Clientes: ${clientes.length} (${clientes.map(c => c.usuario).join(', ')})
+        `;
+    }
+
     window.eliminarReserva = function(index) {
         const reservas = JSON.parse(localStorage.getItem('reservas')) || [];
-        reservas.splice(index, 1);
-        localStorage.setItem('reservas', JSON.stringify(reservas));
-        poblarReservas();
+        const habitaciones = JSON.parse(localStorage.getItem('habitaciones')) || [];
+        
+        const reserva = reservas[index];
+        if (reserva) {
+            const habitacion = habitaciones.find(h => h.id === reserva.habitacionId);
+            if (habitacion) {
+                habitacion.ocupada = false;
+                habitacion.cliente = null;
+                habitacion.tiempo = 0;
+                localStorage.setItem('habitaciones', JSON.stringify(habitaciones));
+            }
+
+            reservas.splice(index, 1);
+            localStorage.setItem('reservas', JSON.stringify(reservas));
+            poblarReservas();
+        }
     }
 
     window.cerrarSesion = function() {
         window.location.href = 'index.html';
+    }
+
+    if (estadisticas) {
+        actualizarEstadisticas();
     }
 });

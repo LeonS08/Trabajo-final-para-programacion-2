@@ -6,7 +6,7 @@ h1 {
     text-align: center;
 }
 
-.login-container, .crud-container {
+.login-container, .register-container, .crud-container {
     max-width: 600px;
     margin: 20px auto;
     padding: 20px;
