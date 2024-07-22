@@ -11,10 +11,36 @@
         <h1>Panel de Control Admin</h1>
     </header>
     <main>
-        <h2>Productos</h2>
-        <ul id="productList"></ul>
-        <h2>Ventas</h2>
-        <ul id="salesList"></ul>
+        <section>
+            <h2>Productos</h2>
+            <ul id="productList"></ul>
+        </section>
+
+        <section>
+            <h3>Agregar Nuevo Producto</h3>
+            <form id="addProductForm">
+                <label for="productName">Nombre del Producto:</label>
+                <input type="text" id="productName" required>
+                <label for="productStock">Stock Inicial:</label>
+                <input type="number" id="productStock" required>
+                <button type="submit">Agregar Producto</button>
+            </form>
+        </section>
+
+        <section>
+            <h3>Eliminar Producto</h3>
+            <form id="removeProductForm">
+                <label for="removeProductName">Nombre del Producto:</label>
+                <input type="text" id="removeProductName" required>
+                <button type="submit">Eliminar Producto</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Ventas</h2>
+            <ul id="salesList"></ul>
+        </section>
+        
         <button id="logoutButton">Cerrar Sesión</button>
     </main>
     <script src="script.js"></script>

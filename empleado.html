@@ -11,8 +11,22 @@
         <h1>Panel de Ventas Empleado</h1>
     </header>
     <main>
-        <h2>Productos</h2>
-        <ul id="productList"></ul>
+        <section>
+            <h2>Productos</h2>
+            <ul id="productList"></ul>
+        </section>
+
+        <section>
+            <h3>Registrar Venta</h3>
+            <form id="saleForm">
+                <label for="saleProductName">Nombre del Producto:</label>
+                <input type="text" id="saleProductName" required>
+                <label for="saleQuantity">Cantidad:</label>
+                <input type="number" id="saleQuantity" required>
+                <button type="submit">Registrar Venta</button>
+            </form>
+        </section>
+
         <button id="logoutButton">Cerrar Sesión</button>
     </main>
     <script src="script.js"></script>

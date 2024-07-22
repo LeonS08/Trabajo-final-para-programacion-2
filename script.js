@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const logoutButton = document.getElementById('logoutButton');
     const productList = document.getElementById('productList');
     const salesList = document.getElementById('salesList');
+    const addProductForm = document.getElementById('addProductForm');
+    const saleForm = document.getElementById('saleForm');
+    const removeProductForm = document.getElementById('removeProductForm');
 
     // Inicializar datos si no están en localStorage
     if (!localStorage.getItem('usuarios')) {
@@ -100,6 +103,56 @@ document.addEventListener('DOMContentLoaded', function() {
         logoutButton.addEventListener('click', function() {
             localStorage.removeItem('usuarioActual');
             window.location.href = 'index.html';
+        });
+    }
+
+    // Función para manejar la adición de productos
+    if (addProductForm) {
+        addProductForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const nombre = document.getElementById('productName').value;
+            const stock = parseInt(document.getElementById('productStock').value, 10);
+
+            const productos = JSON.parse(localStorage.getItem('productos')) || [];
+            productos.push({ nombre, stock, ventas: 0 });
+            localStorage.setItem('productos', JSON.stringify(productos));
+
+            mostrarProductosYVentas();
+        });
+    }
+
+    // Función para manejar la eliminación de productos
+    if (removeProductForm) {
+        removeProductForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const nombre = document.getElementById('removeProductName').value;
+
+            let productos = JSON.parse(localStorage.getItem('productos')) || [];
+            productos = productos.filter(p => p.nombre !== nombre);
+            localStorage.setItem('productos', JSON.stringify(productos));
+
+            mostrarProductosYVentas();
+        });
+    }
+
+    // Función para manejar la venta de productos
+    if (saleForm) {
+        saleForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const nombre = document.getElementById('saleProductName').value;
+            const cantidad = parseInt(document.getElementById('saleQuantity').value, 10);
+
+            const productos = JSON.parse(localStorage.getItem('productos')) || [];
+            const producto = productos.find(p => p.nombre === nombre);
+
+            if (producto && producto.stock >= cantidad) {
+                producto.stock -= cantidad;
+                producto.ventas += cantidad;
+                localStorage.setItem('productos', JSON.stringify(productos));
+                mostrarProductosYVentas();
+            } else {
+                alert('Stock insuficiente o producto no encontrado.');
+            }
         });
     }
 
