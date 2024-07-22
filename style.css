@@ -2,18 +2,18 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     margin: 0;
-    padding: 0;
+    padding: 0
 }
 
 header {
     background-color: #007bff;
     color: #fff;
     padding: 10px 0;
-    text-align: center;
+    text-align: center
 }
 
 main {
-    padding: 20px;
+    padding: 20px
 }
 
 section {
@@ -21,27 +21,27 @@ section {
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     margin-bottom: 20px;
-    padding: 20px;
+    padding: 20px
 }
 
 h1, h2, h3 {
-    margin: 0 0 10px;
+    margin: 0 0 10px
 }
 
 form {
     display: flex;
-    flex-direction: column;
+    flex-direction: column
 }
 
 label {
-    margin-bottom: 5px;
+    margin-bottom: 5px
 }
 
 input {
     margin-bottom: 10px;
     padding: 8px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 4px
 }
 
 button {
@@ -51,32 +51,32 @@ button {
     padding: 10px;
     border: none;
     border-radius: 4px;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s
 }
 
 button:hover {
-    background-color: #218838;
+    background-color: #218838
 }
 
 button#backToMenu {
-    background-color: #007bff;
+    background-color: #007bff
 }
 
 button#backToMenu:hover {
-    background-color: #0069d9;
+    background-color: #0069d9
 }
 
 button#logoutButton {
-    background-color: #dc3545;
+    background-color: #dc3545
 }
 
 button#logoutButton:hover {
-    background-color: #c82333;
+    background-color: #c82333
 }
 
 ul {
     list-style-type: none;
-    padding: 0;
+    padding: 0
 }
 
 li {
@@ -84,5 +84,5 @@ li {
     margin: 5px 0;
     padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 4px;
+    border-radius: 4px
 }
