@@ -3,28 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Empleado</title>
-    <link rel="stylesheet" href="estilos.css">
+    <title>Empleado - Panel de Ventas</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Panel de Empleado</h1>
-    <h2>Asignar Habitación</h2>
-    <form id="formularioAsignarHabitacion">
-        <label for="nombreCliente">Nombre del Cliente:</label>
-        <input type="text" id="nombreCliente" required>
-        <label for="tiempoAsignacion">Tiempo de Estancia (días):</label>
-        <input type="number" id="tiempoAsignacion" required>
-        <button type="submit">Asignar Habitación</button>
-    </form>
-    <h2>Habitaciones</h2>
-    <table id="tablaHabitacionesEmpleado">
-        <tr>
-            <th>ID</th>
-            <th>Estado</th>
-        </tr>
-    </table>
-    <button onclick="cerrarSesion()">Cerrar Sesión</button>
-    <button onclick="location.href='index.html'">Volver al menú principal</button>
+    <header>
+        <h1>Panel de Ventas Empleado</h1>
+    </header>
+    <main>
+        <h2>Productos</h2>
+        <ul id="productList"></ul>
+        <button id="logoutButton">Cerrar Sesión</button>
+    </main>
     <script src="script.js"></script>
 </body>
 </html>

@@ -3,39 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administrador</title>
-    <link rel="stylesheet" href="estilos.css">
+    <title>Admin - Panel de Control</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Panel de Administración</h1>
-    <div id="estadisticas"></div>
-    <h2>Crear Empleado</h2>
-    <form id="formularioCrearEmpleado">
-        <label for="usuarioEmpleado">Usuario:</label>
-        <input type="text" id="usuarioEmpleado" required>
-        <label for="contraseñaEmpleado">Contraseña:</label>
-        <input type="password" id="contraseñaEmpleado" required>
-        <button type="submit">Crear Empleado</button>
-    </form>
-    <h2>Cambiar Contraseña de Cliente</h2>
-    <form id="formularioCambioContraseña">
-        <label for="usuarioCliente">Usuario Cliente:</label>
-        <input type="text" id="usuarioCliente" required>
-        <label for="nuevaContraseñaCliente">Nueva Contraseña:</label>
-        <input type="password" id="nuevaContraseñaCliente" required>
-        <button type="submit">Cambiar Contraseña</button>
-    </form>
-    <h2>Habitaciones</h2>
-    <table id="tablaHabitaciones">
-        <tr>
-            <th>ID</th>
-            <th>Cliente</th>
-            <th>Tiempo</th>
-            <th>Acciones</th>
-        </tr>
-    </table>
-    <button onclick="cerrarSesion()">Cerrar Sesión</button>
-    <button onclick="location.href='index.html'">Volver al menú principal</button>
+    <header>
+        <h1>Panel de Control Admin</h1>
+    </header>
+    <main>
+        <h2>Productos</h2>
+        <ul id="productList"></ul>
+        <h2>Ventas</h2>
+        <ul id="salesList"></ul>
+        <button id="logoutButton">Cerrar Sesión</button>
+    </main>
     <script src="script.js"></script>
 </body>
 </html>

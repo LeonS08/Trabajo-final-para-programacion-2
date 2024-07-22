@@ -1,254 +1,117 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const formularioLogin = document.getElementById('formularioLogin');
-    const formularioRegistro = document.getElementById('formularioRegistro');
-    const formularioCambioContraseña = document.getElementById('formularioCambioContraseña');
-    const formularioCrearEmpleado = document.getElementById('formularioCrearEmpleado');
-    const formularioAsignarHabitacion = document.getElementById('formularioAsignarHabitacion');
-    const tablaReservas = document.getElementById('tablaReservas');
-    const tablaHabitacionesEmpleado = document.getElementById('tablaHabitacionesEmpleado');
-    const tablaHabitaciones = document.getElementById('tablaHabitaciones');
-    const estadisticas = document.getElementById('estadisticas');
+    const adminButton = document.getElementById('adminButton');
+    const empleadoButton = document.getElementById('empleadoButton');
+    const loginAdminForm = document.getElementById('loginAdminForm');
+    const loginEmpleadoForm = document.getElementById('loginEmpleadoForm');
+    const backToMenuButton = document.getElementById('backToMenu');
+    const logoutButton = document.getElementById('logoutButton');
+    const productList = document.getElementById('productList');
+    const salesList = document.getElementById('salesList');
 
-    // Inicializar habitaciones si no están ya en el localStorage
-    if (!localStorage.getItem('habitaciones')) {
-        const habitaciones = Array.from({ length: 30 }, (_, index) => ({ id: index + 1, ocupada: false, cliente: null, tiempo: 0 }));
-        localStorage.setItem('habitaciones', JSON.stringify(habitaciones));
-    }
-
-    // Inicializar usuarios si no están ya en el localStorage
+    // Inicializar datos si no están en localStorage
     if (!localStorage.getItem('usuarios')) {
         const usuarios = [
-            { usuario: 'admin', contraseña: 'admin', rol: 'admin' },
-            { usuario: 'empleado', contraseña: 'empleado', rol: 'empleado' }
+            { usuario: 'admin', rol: 'admin' },
+            { usuario: 'empleado', rol: 'empleado' }
         ];
         localStorage.setItem('usuarios', JSON.stringify(usuarios));
     }
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const rol = urlParams.get('rol');
+    if (!localStorage.getItem('productos')) {
+        const productos = [
+            { nombre: 'Producto 1', stock: 10, ventas: 0 },
+            { nombre: 'Producto 2', stock: 5, ventas: 0 }
+        ];
+        localStorage.setItem('productos', JSON.stringify(productos));
+    }
 
-    if (rol && formularioLogin) {
-        const rolInput = document.getElementById('rol');
-        const registroCliente = document.getElementById('registroCliente');
-        rolInput.value = rol;
+    // Función para manejar la selección del rol
+    if (adminButton) {
+        adminButton.addEventListener('click', function() {
+            window.location.href = 'login-admin.html';
+        });
+    }
 
-        if (rol === 'cliente') {
-            registroCliente.style.display = 'block';
+    if (empleadoButton) {
+        empleadoButton.addEventListener('click', function() {
+            window.location.href = 'login-empleado.html';
+        });
+    }
+
+    // Función para manejar el inicio de sesión del administrador
+    if (loginAdminForm) {
+        loginAdminForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('adminUsername').value;
+            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+            const usuario = usuarios.find(u => u.usuario === username && u.rol === 'admin');
+
+            if (usuario) {
+                localStorage.setItem('usuarioActual', username);
+                window.location.href = 'admin.html';
+            } else {
+                alert('Usuario incorrecto.');
+            }
+        });
+    }
+
+    // Función para manejar el inicio de sesión del empleado
+    if (loginEmpleadoForm) {
+        loginEmpleadoForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('empleadoUsername').value;
+            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
+            const usuario = usuarios.find(u => u.usuario === username && u.rol === 'empleado');
+
+            if (usuario) {
+                localStorage.setItem('usuarioActual', username);
+                window.location.href = 'empleado.html';
+            } else {
+                alert('Usuario incorrecto.');
+            }
+        });
+    }
+
+    // Función para mostrar productos y ventas
+    function mostrarProductosYVentas() {
+        const productos = JSON.parse(localStorage.getItem('productos')) || [];
+
+        if (productList) {
+            productList.innerHTML = '';
+            productos.forEach(producto => {
+                const li = document.createElement('li');
+                li.textContent = `Nombre: ${producto.nombre}, Stock: ${producto.stock}, Ventas: ${producto.ventas}`;
+                productList.appendChild(li);
+            });
         }
 
-        formularioLogin.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const usuario = document.getElementById('usuario').value;
-            const contraseña = document.getElementById('contraseña').value;
-
-            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-            const usuarioEncontrado = usuarios.find(user => user.usuario === usuario && user.contraseña === contraseña && user.rol === rol);
-
-            if (usuarioEncontrado) {
-                localStorage.setItem('usuarioActual', JSON.stringify(usuarioEncontrado));
-                if (rol === 'admin') {
-                    window.location.href = 'admin.html';
-                } else if (rol === 'empleado') {
-                    window.location.href = 'empleado.html';
-                } else if (rol === 'cliente') {
-                    window.location.href = 'cliente.html';
-                }
-            } else {
-                alert('Usuario o contraseña incorrectos');
-            }
-        });
-    }
-
-    if (formularioRegistro) {
-        formularioRegistro.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const nuevoUsuario = document.getElementById('nuevoUsuario').value;
-            const nuevaContraseña = document.getElementById('nuevaContraseña').value;
-
-            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-            const usuarioExistente = usuarios.find(user => user.usuario === nuevoUsuario);
-
-            if (usuarioExistente) {
-                alert('El nombre de usuario ya está en uso');
-            } else {
-                usuarios.push({ usuario: nuevoUsuario, contraseña: nuevaContraseña, rol: 'cliente' });
-                localStorage.setItem('usuarios', JSON.stringify(usuarios));
-                alert('Registro exitoso. Ahora estás logueado.');
-                localStorage.setItem('usuarioActual', JSON.stringify({ usuario: nuevoUsuario, contraseña: nuevaContraseña, rol: 'cliente' }));
-                window.location.href = 'cliente.html';
-            }
-        });
-    }
-
-    if (formularioCambioContraseña) {
-        formularioCambioContraseña.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const usuarioCliente = document.getElementById('usuarioCliente').value;
-            const nuevaContraseña = document.getElementById('nuevaContraseñaCliente').value;
-
-            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-            const cliente = usuarios.find(user => user.usuario === usuarioCliente && user.rol === 'cliente');
-
-            if (cliente) {
-                cliente.contraseña = nuevaContraseña;
-                localStorage.setItem('usuarios', JSON.stringify(usuarios));
-                alert('Contraseña cambiada con éxito');
-            } else {
-                alert('Cliente no encontrado');
-            }
-        });
-    }
-
-    if (formularioCrearEmpleado) {
-        formularioCrearEmpleado.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const usuarioEmpleado = document.getElementById('usuarioEmpleado').value;
-            const contraseñaEmpleado = document.getElementById('contraseñaEmpleado').value;
-
-            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-            const usuarioExistente = usuarios.find(user => user.usuario === usuarioEmpleado);
-
-            if (usuarioExistente) {
-                alert('El nombre de usuario ya está en uso');
-            } else {
-                usuarios.push({ usuario: usuarioEmpleado, contraseña: contraseñaEmpleado, rol: 'empleado' });
-                localStorage.setItem('usuarios', JSON.stringify(usuarios));
-                alert('Empleado creado con éxito');
-                actualizarEstadisticas();
-            }
-        });
-    }
-
-    if (formularioAsignarHabitacion) {
-        formularioAsignarHabitacion.addEventListener('submit', function(event) {
-            event.preventDefault();
-            const nombreCliente = document.getElementById('nombreCliente').value;
-            const tiempo = parseInt(document.getElementById('tiempoAsignacion').value, 10);
-
-            asignarHabitacion(nombreCliente, tiempo);
-        });
-    }
-
-    if (tablaReservas) {
-        poblarReservas();
-    }
-
-    if (tablaHabitacionesEmpleado) {
-        poblarHabitacionesEmpleado();
-    }
-
-    if (tablaHabitaciones) {
-        poblarHabitacionesAdmin();
-    }
-
-    function asignarHabitacion(nombreCliente, tiempo) {
-        const habitaciones = JSON.parse(localStorage.getItem('habitaciones')) || [];
-        const reservas = JSON.parse(localStorage.getItem('reservas')) || [];
-
-        const habitacion = habitaciones.find(h => !h.ocupada);
-
-        if (habitacion) {
-            habitacion.ocupada = true;
-            habitacion.cliente = nombreCliente;
-            habitacion.tiempo = tiempo;
-            localStorage.setItem('habitaciones', JSON.stringify(habitaciones));
-
-            reservas.push({ nombre: nombreCliente, habitacionId: habitacion.id, tiempo });
-            localStorage.setItem('reservas', JSON.stringify(reservas));
-
-            alert('Habitación asignada con éxito.');
-            poblarHabitacionesEmpleado();
-        } else {
-            alert('No hay habitaciones disponibles.');
+        if (salesList) {
+            salesList.innerHTML = '';
+            productos.forEach(producto => {
+                const li = document.createElement('li');
+                li.textContent = `Nombre: ${producto.nombre}, Ventas: ${producto.ventas}`;
+                salesList.appendChild(li);
+            });
         }
     }
 
-    function poblarReservas() {
-        const reservas = JSON.parse(localStorage.getItem('reservas')) || [];
-        const usuarioActual = JSON.parse(localStorage.getItem('usuarioActual')) || {};
-        if (!tablaReservas) return;
-        tablaReservas.innerHTML = '';
-        reservas.forEach(reserva => {
-            if (reserva.nombre === usuarioActual.usuario) {
-                const fila = document.createElement('tr');
-                fila.innerHTML = `
-                    <td>${reserva.habitacionId}</td>
-                    <td>${reserva.tiempo} días</td>
-                `;
-                tablaReservas.appendChild(fila);
-            }
+    // Función para manejar el cierre de sesión
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function() {
+            localStorage.removeItem('usuarioActual');
+            window.location.href = 'index.html';
         });
     }
 
-    function poblarHabitacionesEmpleado() {
-        const habitaciones = JSON.parse(localStorage.getItem('habitaciones')) || [];
-        if (!tablaHabitacionesEmpleado) return;
-        tablaHabitacionesEmpleado.innerHTML = '';
-        habitaciones.forEach(habitacion => {
-            const fila = document.createElement('tr');
-            fila.innerHTML = `
-                <td>${habitacion.id}</td>
-                <td>${habitacion.ocupada ? `Ocupada por ${habitacion.cliente}, Tiempo restante: ${habitacion.tiempo} días` : 'Disponible'}</td>
-            `;
-            tablaHabitacionesEmpleado.appendChild(fila);
+    // Mostrar productos y ventas al cargar la página
+    if (productList || salesList) {
+        mostrarProductosYVentas();
+    }
+
+    // Función para regresar al menú principal
+    if (backToMenuButton) {
+        backToMenuButton.addEventListener('click', function() {
+            window.location.href = 'index.html';
         });
-    }
-
-    function poblarHabitacionesAdmin() {
-        const habitaciones = JSON.parse(localStorage.getItem('habitaciones')) || [];
-        if (!tablaHabitaciones) return;
-        tablaHabitaciones.innerHTML = '';
-        habitaciones.forEach((habitacion, index) => {
-            const fila = document.createElement('tr');
-            fila.innerHTML = `
-                <td>${habitacion.id}</td>
-                <td>${habitacion.cliente || 'Vacía'}</td>
-                <td>${habitacion.tiempo} días</td>
-                <td>${habitacion.ocupada ? `<button onclick="eliminarReserva(${index})">Cancelar Reserva</button>` : ''}</td>
-            `;
-            tablaHabitaciones.appendChild(fila);
-        });
-    }
-
-    function actualizarEstadisticas() {
-        const usuarios = JSON.parse(localStorage.getItem('usuarios')) || [];
-        const empleados = usuarios.filter(user => user.rol === 'empleado');
-        const clientes = usuarios.filter(user => user.rol === 'cliente');
-
-        if (estadisticas) {
-            estadisticas.innerHTML = `
-                Empleados: ${empleados.length} (${empleados.map(e => e.usuario).join(', ')})<br>
-                Clientes: ${clientes.length} (${clientes.map(c => c.usuario).join(', ')})
-            `;
-        }
-    }
-
-    window.eliminarReserva = function(index) {
-        const reservas = JSON.parse(localStorage.getItem('reservas')) || [];
-        const habitaciones = JSON.parse(localStorage.getItem('habitaciones')) || [];
-
-        const reserva = reservas[index];
-        if (reserva) {
-            const habitacion = habitaciones.find(h => h.id === reserva.habitacionId);
-            if (habitacion) {
-                habitacion.ocupada = false;
-                habitacion.cliente = null;
-                habitacion.tiempo = 0;
-                localStorage.setItem('habitaciones', JSON.stringify(habitaciones));
-            }
-
-            reservas.splice(index, 1);
-            localStorage.setItem('reservas', JSON.stringify(reservas));
-            poblarHabitacionesAdmin();
-        }
-    }
-
-    function cerrarSesion() {
-        localStorage.removeItem('usuarioActual');
-        window.location.href = 'login.html?rol=cliente';
-    }
-
-    if (estadisticas) {
-        actualizarEstadisticas();
     }
 });
