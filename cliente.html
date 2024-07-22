@@ -3,26 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Cliente</title>
+    <title>Cliente</title>
     <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
     <h1>Panel de Cliente</h1>
+    <h2>Mis Reservas</h2>
+    <table id="tablaReservas">
+        <tr>
+            <th>Habitación</th>
+            <th>Tiempo Restante (días)</th>
+        </tr>
+    </table>
     <button onclick="cerrarSesion()">Cerrar Sesión</button>
-    <div class="crud-container">
-        <h2>Mis Reservas</h2>
-        <table id="tablaReservas">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Habitación</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Las reservas se poblarán dinámicamente aquí -->
-            </tbody>
-        </table>
-    </div>
+    <button onclick="location.href='index.html'">Volver al menú principal</button>
     <script src="script.js"></script>
 </body>
 </html>

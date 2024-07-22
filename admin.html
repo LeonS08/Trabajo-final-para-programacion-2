@@ -3,71 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel de Administración</title>
+    <title>Administrador</title>
     <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
     <h1>Panel de Administración</h1>
+    <div id="estadisticas"></div>
+    <h2>Crear Empleado</h2>
+    <form id="formularioCrearEmpleado">
+        <label for="usuarioEmpleado">Usuario:</label>
+        <input type="text" id="usuarioEmpleado" required>
+        <label for="contraseñaEmpleado">Contraseña:</label>
+        <input type="password" id="contraseñaEmpleado" required>
+        <button type="submit">Crear Empleado</button>
+    </form>
+    <h2>Cambiar Contraseña de Cliente</h2>
+    <form id="formularioCambioContraseña">
+        <label for="usuarioCliente">Usuario Cliente:</label>
+        <input type="text" id="usuarioCliente" required>
+        <label for="nuevaContraseñaCliente">Nueva Contraseña:</label>
+        <input type="password" id="nuevaContraseñaCliente" required>
+        <button type="submit">Cambiar Contraseña</button>
+    </form>
+    <h2>Habitaciones</h2>
+    <table id="tablaHabitaciones">
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Tiempo</th>
+            <th>Acciones</th>
+        </tr>
+    </table>
     <button onclick="cerrarSesion()">Cerrar Sesión</button>
-    <div class="crud-container">
-        <h2>Gestionar Reservas</h2>
-        <table id="tablaReservas">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Habitación</th>
-                    <th>Tiempo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Las reservas se poblarán dinámicamente aquí -->
-            </tbody>
-        </table>
-        <form id="formularioReservas">
-            <input type="text" id="nombreReserva" placeholder="Nombre" required>
-            <input type="number" id="tiempoReserva" placeholder="Tiempo en horas" required>
-            <button type="submit">Agregar Reserva</button>
-        </form>
-        <div>
-            <h2>Estadísticas</h2>
-            <p id="estadisticas"></p>
-        </div>
-        <div>
-            <h2>Cambiar Contraseña de Cliente</h2>
-            <form id="formularioCambioContraseña">
-                <label for="usuarioCliente">Usuario del Cliente:</label>
-                <input type="text" id="usuarioCliente" required>
-                <label for="nuevaContraseñaCliente">Nueva Contraseña:</label>
-                <input type="password" id="nuevaContraseñaCliente" required>
-                <button type="submit">Cambiar Contraseña</button>
-            </form>
-        </div>
-        <div>
-            <h2>Crear Cuenta para Empleado</h2>
-            <form id="formularioCrearEmpleado">
-                <label for="usuarioEmpleado">Usuario:</label>
-                <input type="text" id="usuarioEmpleado" required>
-                <label for="contraseñaEmpleado">Contraseña:</label>
-                <input type="password" id="contraseñaEmpleado" required>
-                <button type="submit">Crear Empleado</button>
-            </form>
-        </div>
-        <div>
-            <h2>Estado de Habitaciones</h2>
-            <table id="tablaHabitaciones">
-                <thead>
-                    <tr>
-                        <th>Habitación</th>
-                        <th>Cliente</th>
-                        <th>Tiempo Restante</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Las habitaciones se poblarán dinámicamente aquí -->
-                </tbody>
-            </table>
-        </div>
-    </div>
+    <button onclick="location.href='index.html'">Volver al menú principal</button>
     <script src="script.js"></script>
 </body>
 </html>

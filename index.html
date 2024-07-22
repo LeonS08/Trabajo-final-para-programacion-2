@@ -3,27 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Reservas de Hotel</title>
+    <title>Seleccionar Rol</title>
     <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-    <h1>Sistema de Reservas de Hotel</h1>
-    <div class="login-container">
-        <form id="formularioLogin">
-            <label for="usuario">Usuario:</label>
-            <input type="text" id="usuario" required>
-            <label for="contraseña">Contraseña:</label>
-            <input type="password" id="contraseña" required>
-            <label for="rol">Rol:</label>
-            <select id="rol" required>
-                <option value="admin">Administrador</option>
-                <option value="empleado">Empleado</option>
-                <option value="cliente">Cliente</option>
-            </select>
-            <button type="submit">Iniciar Sesión</button>
-        </form>
-        <p>¿No tienes una cuenta? <a href="registro.html">Regístrate aquí</a></p>
-    </div>
-    <script src="script.js"></script>
+    <h1>Seleccionar Rol</h1>
+    <button onclick="location.href='login.html?rol=admin'">Administrador</button>
+    <button onclick="location.href='login.html?rol=empleado'">Empleado</button>
+    <button onclick="location.href='login.html?rol=cliente'">Cliente</button>
 </body>
 </html>
