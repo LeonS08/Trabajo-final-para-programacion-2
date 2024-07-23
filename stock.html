@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Stock</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Gestión de Stock</h1>
+        <form id="formularioAgregarProducto">
+            <input type="text" id="nombreProducto" placeholder="Nombre del Producto" required>
+            <input type="number" id="cantidadProducto" placeholder="Cantidad" required>
+            <input type="number" id="precioProducto" placeholder="Precio" required>
+            <button type="submit">Agregar Producto</button>
+        </form>
+        <form id="formularioEliminarProducto">
+            <input type="text" id="nombreProductoEliminar" placeholder="Nombre del Producto a Eliminar" required>
+            <button type="submit">Eliminar Producto</button>
+        </form>
+        <button id="volverAdmin">Volver al Panel de Admin</button>
+        <button id="cerrarSesion">Cerrar Sesión</button>
+        <ul id="listaProductos"></ul>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

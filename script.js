@@ -1,159 +1,138 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const adminButton = document.getElementById('adminButton')
-    const empleadoButton = document.getElementById('empleadoButton')
-    const loginAdminForm = document.getElementById('loginAdminForm')
-    const loginEmpleadoForm = document.getElementById('loginEmpleadoForm')
-    const backToMenuButton = document.getElementById('backToMenu')
-    const logoutButton = document.getElementById('logoutButton')
-    const productList = document.getElementById('productList')
-    const salesList = document.getElementById('salesList')
-    const addProductForm = document.getElementById('addProductForm')
-    const saleForm = document.getElementById('saleForm')
-    const removeProductForm = document.getElementById('removeProductForm')
+    const formularioLogin = document.getElementById('loginForm')
+    const formularioAgregarProducto = document.getElementById('formularioAgregarProducto')
+    const formularioEliminarProducto = document.getElementById('formularioEliminarProducto')
+    const formularioRegistrarVenta = document.getElementById('formularioVenta')
+    const botonCerrarSesion = document.getElementById('cerrarSesion')
+    const botonVolverAdmin = document.getElementById('volverAdmin')
+    const listaProductos = document.getElementById('listaProductos')
+    const listaVentas = document.getElementById('listaVentas')
 
-    if (!localStorage.getItem('usuarios')) {
-        const usuarios = [
-            { usuario: 'admin', rol: 'admin' },
-            { usuario: 'empleado', rol: 'empleado' }
-        ]
-        localStorage.setItem('usuarios', JSON.stringify(usuarios))
+    const USUARIOS = {
+        'admin': 'admin',
+        'empleado': 'empleado'
     }
 
-    if (!localStorage.getItem('productos')) {
-        const productos = [
-            { nombre: 'manaos', stock: 10, ventas: 0 },
-            { nombre: 'vino', stock: 5, ventas: 0 }
-        ]
+    function obtenerProductos() {
+        return JSON.parse(localStorage.getItem('productos')) || []
+    }
+
+    function guardarProductos(productos) {
         localStorage.setItem('productos', JSON.stringify(productos))
     }
 
-    if (adminButton) {
-        adminButton.addEventListener('click', function() {
-            window.location.href = 'login-admin.html'
-        })
+    function obtenerVentas() {
+        return JSON.parse(localStorage.getItem('ventas')) || []
     }
 
-    if (empleadoButton) {
-        empleadoButton.addEventListener('click', function() {
-            window.location.href = 'login-empleado.html'
-        })
+    function guardarVentas(ventas) {
+        localStorage.setItem('ventas', JSON.stringify(ventas))
     }
 
-    if (loginAdminForm) {
-        loginAdminForm.addEventListener('submit', function(event) {
+    if (formularioLogin) {
+        formularioLogin.addEventListener('submit', (event) => {
             event.preventDefault()
-            const username = document.getElementById('adminUsername').value
-            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || []
-            const usuario = usuarios.find(u => u.usuario === username && u.rol === 'admin')
-
-            if (usuario) {
-                localStorage.setItem('usuarioActual', username)
-                window.location.href = 'admin.html'
+            const usuario = document.getElementById('usuario').value
+            if (USUARIOS[usuario]) {
+                window.location.href = usuario === 'admin' ? 'admin.html' : 'empleado.html'
             } else {
-                alert('Usuario incorrecto.')
+                alert('Usuario no reconocido')
             }
         })
     }
 
-    if (loginEmpleadoForm) {
-        loginEmpleadoForm.addEventListener('submit', function(event) {
-            event.preventDefault()
-            const username = document.getElementById('empleadoUsername').value
-            const usuarios = JSON.parse(localStorage.getItem('usuarios')) || []
-            const usuario = usuarios.find(u => u.usuario === username && u.rol === 'empleado')
+    if (botonCerrarSesion) {
+        botonCerrarSesion.addEventListener('click', () => window.location.href = 'index.html')
+    }
 
-            if (usuario) {
-                localStorage.setItem('usuarioActual', username)
-                window.location.href = 'empleado.html'
+    if (botonVolverAdmin) {
+        botonVolverAdmin.addEventListener('click', () => window.location.href = 'admin.html')
+    }
+
+    function mostrarProductos() {
+        const productos = obtenerProductos()
+        listaProductos.innerHTML = ''
+        productos.forEach(producto => {
+            const li = document.createElement('li')
+            li.textContent = `${producto.nombre} - Stock: ${producto.stock} - Precio: ${producto.precio}`
+            listaProductos.appendChild(li)
+        })
+    }
+
+    function mostrarVentas() {
+        const ventas = obtenerVentas()
+        listaVentas.innerHTML = ''
+        ventas.forEach(venta => {
+            const li = document.createElement('li')
+            li.textContent = `${venta.nombre} - Cantidad: ${venta.cantidad}`
+            listaVentas.appendChild(li)
+        })
+    }
+
+    if (formularioAgregarProducto) {
+        formularioAgregarProducto.addEventListener('submit', (event) => {
+            event.preventDefault()
+            const nombre = document.getElementById('nombreProducto').value
+            const cantidad = parseInt(document.getElementById('cantidadProducto').value)
+            const precio = parseFloat(document.getElementById('precioProducto').value)
+            const productos = obtenerProductos()
+            const productoExistente = productos.find(p => p.nombre === nombre)
+
+            if (productoExistente) {
+                productoExistente.stock += cantidad
             } else {
-                alert('Usuario incorrecto.')
+                productos.push({ nombre, stock: cantidad, precio })
             }
+            guardarProductos(productos)
+            alert('Producto agregado')
+            mostrarProductos()
         })
     }
 
-    function mostrarProductosYVentas() {
-        const productos = JSON.parse(localStorage.getItem('productos')) || []
-
-        if (productList) {
-            productList.innerHTML = ''
-            productos.forEach(producto => {
-                const li = document.createElement('li')
-                li.textContent = `Nombre: ${producto.nombre}, Stock: ${producto.stock}, Ventas: ${producto.ventas}`
-                productList.appendChild(li)
-            })
-        }
-
-        if (salesList) {
-            salesList.innerHTML = ''
-            productos.forEach(producto => {
-                const li = document.createElement('li')
-                li.textContent = `Nombre: ${producto.nombre}, Ventas: ${producto.ventas}`
-                salesList.appendChild(li)
-            })
-        }
-    }
-
-    if (logoutButton) {
-        logoutButton.addEventListener('click', function() {
-            localStorage.removeItem('usuarioActual')
-            window.location.href = 'index.html'
-        })
-    }
-
-    if (addProductForm) {
-        addProductForm.addEventListener('submit', function(event) {
+    if (formularioEliminarProducto) {
+        formularioEliminarProducto.addEventListener('submit', (event) => {
             event.preventDefault()
-            const nombre = document.getElementById('productName').value
-            const stock = parseInt(document.getElementById('productStock').value, 10)
-
-            const productos = JSON.parse(localStorage.getItem('productos')) || []
-            productos.push({ nombre, stock, ventas: 0 })
-            localStorage.setItem('productos', JSON.stringify(productos))
-
-            mostrarProductosYVentas()
-        })
-    }
-
-    if (removeProductForm) {
-        removeProductForm.addEventListener('submit', function(event) {
-            event.preventDefault()
-            const nombre = document.getElementById('removeProductName').value
-
-            let productos = JSON.parse(localStorage.getItem('productos')) || []
+            const nombre = document.getElementById('nombreProductoEliminar').value
+            let productos = obtenerProductos()
             productos = productos.filter(p => p.nombre !== nombre)
-            localStorage.setItem('productos', JSON.stringify(productos))
-
-            mostrarProductosYVentas()
+            guardarProductos(productos)
+            alert('Producto eliminado')
+            mostrarProductos()
         })
     }
 
-    if (saleForm) {
-        saleForm.addEventListener('submit', function(event) {
+    if (formularioRegistrarVenta) {
+        formularioRegistrarVenta.addEventListener('submit', (event) => {
             event.preventDefault()
-            const nombre = document.getElementById('saleProductName').value
-            const cantidad = parseInt(document.getElementById('saleQuantity').value, 10)
-
-            const productos = JSON.parse(localStorage.getItem('productos')) || []
+            const nombre = document.getElementById('nombreProductoVenta').value
+            const cantidad = parseInt(document.getElementById('cantidadVenta').value)
+            const productos = obtenerProductos()
             const producto = productos.find(p => p.nombre === nombre)
 
             if (producto && producto.stock >= cantidad) {
                 producto.stock -= cantidad
-                producto.ventas += cantidad
-                localStorage.setItem('productos', JSON.stringify(productos))
-                mostrarProductosYVentas()
+                guardarProductos(productos)
+                const ventas = obtenerVentas()
+                const ventaExistente = ventas.find(v => v.nombre === nombre)
+
+                if (ventaExistente) {
+                    ventaExistente.cantidad += cantidad
+                } else {
+                    ventas.push({ nombre, cantidad })
+                }
+                guardarVentas(ventas)
+                alert('Venta registrada')
             } else {
-                alert('Stock insuficiente o producto no encontrado.')
+                alert('Stock insuficiente o producto no encontrado')
             }
         })
     }
 
-    if (productList || salesList) {
-        mostrarProductosYVentas()
+    if (document.getElementById('listaProductos')) {
+        mostrarProductos()
     }
 
-    if (backToMenuButton) {
-        backToMenuButton.addEventListener('click', function() {
-            window.location.href = 'index.html'
-        })
+    if (document.getElementById('listaVentas')) {
+        mostrarVentas()
     }
 })

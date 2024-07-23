@@ -3,46 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Panel de Control</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Panel de Administrador</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Panel de Control Admin</h1>
-    </header>
-    <main>
-        <section>
-            <h2>Productos</h2>
-            <ul id="productList"></ul>
-        </section>
-
-        <section>
-            <h3>Agregar Nuevo Producto</h3>
-            <form id="addProductForm">
-                <label for="productName">Nombre del Producto:</label>
-                <input type="text" id="productName" required>
-                <label for="productStock">Stock Inicial:</label>
-                <input type="number" id="productStock" required>
-                <button type="submit">Agregar Producto</button>
-            </form>
-        </section>
-
-        <section>
-            <h3>Eliminar Producto</h3>
-            <form id="removeProductForm">
-                <label for="removeProductName">Nombre del Producto:</label>
-                <input type="text" id="removeProductName" required>
-                <button type="submit">Eliminar Producto</button>
-            </form>
-        </section>
-
-        <section>
-            <h2>Ventas</h2>
-            <ul id="salesList"></ul>
-        </section>
-        
-        <button id="logoutButton">Cerrar Sesión</button>
-    </main>
+    <div class="container">
+        <h1>Panel de Administrador</h1>
+        <button onclick="window.location.href='ventas.html'">Ventas</button>
+        <button onclick="window.location.href='stock.html'">Stock</button>
+        <button id="cerrarSesion">Cerrar Sesión</button>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
