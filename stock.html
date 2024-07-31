@@ -7,22 +7,62 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Stock</h1>
-        <form id="formularioAgregarProducto">
-            <input type="text" id="nombreProducto" placeholder="Nombre del Producto" required>
-            <input type="number" id="cantidadProducto" placeholder="Cantidad" required>
-            <input type="number" id="precioProducto" placeholder="Precio por Unidad" required>
-            <button type="submit">Agregar Producto</button>
-        </form>
-        <form id="formularioEliminarProducto">
-            <input type="text" id="nombreProductoEliminar" placeholder="Nombre del Producto" required>
-            <button type="submit">Eliminar Producto</button>
-        </form>
-        <ul id="listaProductos"></ul>
-        <p id="precioTotalStock"></p>
-        <button id="volverAdmin">Volver al Panel de Admin</button>
-        <button id="cerrarSesion">Cerrar Sesión</button>
+    <div id="stock">
+        <button id="volverAdmin">Volver</button>
+        <div style="display: flex;">
+            <div style="flex: 1;">
+                <h2>Lista de Productos Almacenados</h2>
+                <ul id="listaStock"></ul>
+                <p id="totalStock">Total Dinero: 0</p>
+                <h3>Agregar Producto</h3>
+                <form id="formAgregarProducto">
+                    <label for="nombreProducto">Nombre:</label>
+                    <input type="text" id="nombreProducto" required>
+                    <label for="cantidadProducto">Cantidad:</label>
+                    <input type="number" id="cantidadProducto" required>
+                    <label for="precioProducto">Precio por Unidad:</label>
+                    <input type="number" id="precioProducto" required>
+                    <button type="submit">Agregar Producto</button>
+                </form>
+                <h3>Modificar Producto</h3>
+                <form id="formModificarProducto">
+                    <label for="idNombreModificar">ID o Nombre:</label>
+                    <input type="text" id="idNombreModificar" required>
+                    <label for="cantidadModificar">Cantidad:</label>
+                    <input type="number" id="cantidadModificar">
+                    <label for="precioModificar">Precio por Unidad:</label>
+                    <input type="number" id="precioModificar">
+                    <button type="submit">Modificar Producto</button>
+                </form>
+                <h3>Eliminar Producto</h3>
+                <form id="formEliminarProducto">
+                    <label for="idNombreEliminar">ID o Nombre:</label>
+                    <input type="text" id="idNombreEliminar" required>
+                    <button type="submit">Eliminar Producto</button>
+                </form>
+            </div>
+            <div style="flex: 1;">
+                <h2>Lista de Ventas</h2>
+                <ul id="listaVentas"></ul>
+                <p id="totalVentas">Total Ganancias: 0</p>
+                <h3>Modificar Venta</h3>
+                <form id="formModificarVenta">
+                    <label for="idNombreVenta">ID o Nombre:</label>
+                    <input type="text" id="idNombreVenta" required>
+                    <label for="cantidadVenta">Cantidad:</label>
+                    <input type="number" id="cantidadVenta">
+                    <label for="precioVenta">Precio por Unidad:</label>
+                    <input type="number" id="precioVenta">
+                    <button type="submit">Modificar Venta</button>
+                </form>
+                <h3>Eliminar Venta</h3>
+                <form id="formEliminarVenta">
+                    <label for="idNombreEliminarVenta">ID o Nombre:</label>
+                    <input type="text" id="idNombreEliminarVenta" required>
+                    <button type="submit">Eliminar Venta</button>
+                </form>
+            </div>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>

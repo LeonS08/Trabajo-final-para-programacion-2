@@ -1,29 +1,25 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
     margin: 0;
     padding: 0;
+    background-color: #f0f0f0;
 }
 
-.container {
-    width: 300px;
-    margin: 50px auto;
+#inicio, #loginAdmin, #loginEmpleado, #panelAdmin, #stock, #empleados, #ventas {
+    margin: 20px;
     padding: 20px;
     background-color: #fff;
+    border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-h1 {
-    margin-bottom: 20px;
 }
 
 button {
-    margin: 10px;
-    padding: 10px;
+    padding: 10px 20px;
+    margin: 5px;
+    border: none;
     background-color: #007bff;
     color: #fff;
-    border: none;
+    border-radius: 5px;
     cursor: pointer;
 }
 
@@ -31,11 +27,25 @@ button:hover {
     background-color: #0056b3;
 }
 
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin: 5px 0;
+}
+
 input {
-    width: 100%;
     padding: 10px;
-    margin: 10px 0;
-    box-sizing: border-box;
+    margin: 5px 0;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+h1, h2, h3 {
+    margin-top: 0;
 }
 
 ul {
@@ -44,7 +54,10 @@ ul {
 }
 
 li {
-    padding: 10px;
-    background-color: #f4f4f4;
-    margin: 5px 0;
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+#mensajeErrorAdmin, #mensajeErrorEmpleado {
+    color: red;
 }

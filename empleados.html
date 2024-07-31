@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Empleados Registrados</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="empleados">
+        <button id="volverAdminEmpleados">Volver</button>
+        <h2>Lista de Empleados</h2>
+        <ul id="listaEmpleados"></ul>
+        <h3>Agregar Empleado</h3>
+        <form id="formAgregarEmpleado">
+            <label for="nombreEmpleado">Nombre:</label>
+            <input type="text" id="nombreEmpleado" required>
+            <label for="passwordEmpleado">Contraseña:</label>
+            <input type="password" id="passwordEmpleado" required>
+            <button type="submit">Agregar Empleado</button>
+        </form>
+        <h3>Modificar Empleado</h3>
+        <form id="formModificarEmpleado">
+            <label for="usuarioModificar">Usuario:</label>
+            <input type="text" id="usuarioModificar" required>
+            <label for="nuevaPasswordEmpleado">Nueva Contraseña:</label>
+            <input type="password" id="nuevaPasswordEmpleado">
+            <button type="submit">Modificar Empleado</button>
+        </form>
+        <h3>Eliminar Empleado</h3>
+        <form id="formEliminarEmpleado">
+            <label for="usuarioEliminar">Usuario:</label>
+            <input type="text" id="usuarioEliminar" required>
+            <button type="submit">Eliminar Empleado</button>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
