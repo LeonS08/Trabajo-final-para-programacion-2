@@ -3,15 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ventas</title>
+    <title>Pantalla de Ventas</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <h1>Ventas</h1>
         <ul id="listaVentas"></ul>
-        <button id="volverAdmin">Volver al inicio</button>
-        <button id="cerrarSesion">Cerrar Sesión</button>
+        <form id="formularioRegistrarVenta">
+            <input type="text" id="nombreProductoVenta" placeholder="Nombre del Producto">
+            <input type="number" id="idProductoVenta" placeholder="ID del Producto">
+            <input type="number" id="cantidadVenta" placeholder="Cantidad" required>
+            <button type="submit">Registrar Venta</button>
+        </form>
+        <p id="totalVenta">Total de la Venta: 0</p>
+        <form id="formularioPago">
+            <input type="number" id="pagoCliente" placeholder="Pago del Cliente" required>
+            <button type="submit">Calcular Cambio</button>
+        </form>
+        <p id="cambioCliente">Cambio a Devolver: 0</p>
+        <button id="confirmarCompra">Confirmar Compra</button>
+        <button id="otraVenta">Otra Venta</button>
+        <button onclick="window.location.href='index.html'">Cerrar Sesión</button>
     </div>
     <script src="script.js"></script>
 </body>

@@ -3,15 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
+    <title>Login Empleado</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Panel de Admin</h1>
-        <button onclick="window.location.href='ventas.html'">Ventas</button>
-        <button onclick="window.location.href='stock.html'">Stock</button>
-        <button id="cerrarSesion">Cerrar Sesión</button>
+        <h1>Login Empleado</h1>
+        <form id="loginFormEmpleado">
+            <input type="text" id="usuarioEmpleado" placeholder="Usuario" required>
+            <button type="submit">Iniciar Sesión</button>
+        </form>
     </div>
     <script src="script.js"></script>
 </body>

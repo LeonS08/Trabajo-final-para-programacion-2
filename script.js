@@ -1,138 +1,108 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const formularioLogin = document.getElementById('loginForm')
-    const formularioAgregarProducto = document.getElementById('formularioAgregarProducto')
-    const formularioEliminarProducto = document.getElementById('formularioEliminarProducto')
-    const formularioRegistrarVenta = document.getElementById('formularioVenta')
-    const botonCerrarSesion = document.getElementById('cerrarSesion')
-    const botonVolverAdmin = document.getElementById('volverAdmin')
-    const listaProductos = document.getElementById('listaProductos')
-    const listaVentas = document.getElementById('listaVentas')
+document.addEventListener('DOMContentLoaded', () => {
+    const listaVentas = document.getElementById('listaVentas');
+    const formularioRegistrarVenta = document.getElementById('formularioRegistrarVenta');
+    const formularioPago = document.getElementById('formularioPago');
+    const totalVenta = document.getElementById('totalVenta');
+    const cambioCliente = document.getElementById('cambioCliente');
+    const confirmarCompra = document.getElementById('confirmarCompra');
+    const otraVenta = document.getElementById('otraVenta');
 
-    const USUARIOS = {
-        'admin': 'admin',
-        'empleado': 'empleado'
-    }
+    let totalDeLaVenta = 0;
 
     function obtenerProductos() {
-        return JSON.parse(localStorage.getItem('productos')) || []
-    }
-
-    function guardarProductos(productos) {
-        localStorage.setItem('productos', JSON.stringify(productos))
+        return JSON.parse(localStorage.getItem('productos')) || [];
     }
 
     function obtenerVentas() {
-        return JSON.parse(localStorage.getItem('ventas')) || []
+        return JSON.parse(localStorage.getItem('ventas')) || [];
     }
 
     function guardarVentas(ventas) {
-        localStorage.setItem('ventas', JSON.stringify(ventas))
-    }
-
-    if (formularioLogin) {
-        formularioLogin.addEventListener('submit', (event) => {
-            event.preventDefault()
-            const usuario = document.getElementById('usuario').value
-            if (USUARIOS[usuario]) {
-                window.location.href = usuario === 'admin' ? 'admin.html' : 'empleado.html'
-            } else {
-                alert('Usuario no reconocido')
-            }
-        })
-    }
-
-    if (botonCerrarSesion) {
-        botonCerrarSesion.addEventListener('click', () => window.location.href = 'index.html')
-    }
-
-    if (botonVolverAdmin) {
-        botonVolverAdmin.addEventListener('click', () => window.location.href = 'admin.html')
-    }
-
-    function mostrarProductos() {
-        const productos = obtenerProductos()
-        listaProductos.innerHTML = ''
-        productos.forEach(producto => {
-            const li = document.createElement('li')
-            li.textContent = `${producto.nombre} - Stock: ${producto.stock} - Precio: ${producto.precio}`
-            listaProductos.appendChild(li)
-        })
+        localStorage.setItem('ventas', JSON.stringify(ventas));
     }
 
     function mostrarVentas() {
-        const ventas = obtenerVentas()
-        listaVentas.innerHTML = ''
+        const ventas = obtenerVentas();
+        listaVentas.innerHTML = '';
+        totalDeLaVenta = 0;
         ventas.forEach(venta => {
-            const li = document.createElement('li')
-            li.textContent = `${venta.nombre} - Cantidad: ${venta.cantidad}`
-            listaVentas.appendChild(li)
-        })
-    }
+            const producto = obtenerProductos().find(p => p.id === venta.id || p.nombre === venta.nombre);
+            const precioTotalProducto = producto.precio * venta.cantidad;
+            totalDeLaVenta += precioTotalProducto;
 
-    if (formularioAgregarProducto) {
-        formularioAgregarProducto.addEventListener('submit', (event) => {
-            event.preventDefault()
-            const nombre = document.getElementById('nombreProducto').value
-            const cantidad = parseInt(document.getElementById('cantidadProducto').value)
-            const precio = parseFloat(document.getElementById('precioProducto').value)
-            const productos = obtenerProductos()
-            const productoExistente = productos.find(p => p.nombre === nombre)
-
-            if (productoExistente) {
-                productoExistente.stock += cantidad
-            } else {
-                productos.push({ nombre, stock: cantidad, precio })
-            }
-            guardarProductos(productos)
-            alert('Producto agregado')
-            mostrarProductos()
-        })
-    }
-
-    if (formularioEliminarProducto) {
-        formularioEliminarProducto.addEventListener('submit', (event) => {
-            event.preventDefault()
-            const nombre = document.getElementById('nombreProductoEliminar').value
-            let productos = obtenerProductos()
-            productos = productos.filter(p => p.nombre !== nombre)
-            guardarProductos(productos)
-            alert('Producto eliminado')
-            mostrarProductos()
-        })
+            const li = document.createElement('li');
+            li.textContent = `${venta.nombre || 'ID:' + venta.id} - Cantidad: ${venta.cantidad} - Precio Total: ${precioTotalProducto}`;
+            listaVentas.appendChild(li);
+        });
+        if (totalVenta) {
+            totalVenta.textContent = `Total de la Venta: ${totalDeLaVenta}`;
+        }
     }
 
     if (formularioRegistrarVenta) {
         formularioRegistrarVenta.addEventListener('submit', (event) => {
-            event.preventDefault()
-            const nombre = document.getElementById('nombreProductoVenta').value
-            const cantidad = parseInt(document.getElementById('cantidadVenta').value)
-            const productos = obtenerProductos()
-            const producto = productos.find(p => p.nombre === nombre)
+            event.preventDefault();
+            const nombre = document.getElementById('nombreProductoVenta').value;
+            const id = parseInt(document.getElementById('idProductoVenta').value);
+            const cantidad = parseInt(document.getElementById('cantidadVenta').value);
+            const productos = obtenerProductos();
+
+            let producto;
+            if (nombre) {
+                producto = productos.find(p => p.nombre === nombre);
+            } else if (!isNaN(id)) {
+                producto = productos.find(p => p.id === id);
+            }
 
             if (producto && producto.stock >= cantidad) {
-                producto.stock -= cantidad
-                guardarProductos(productos)
-                const ventas = obtenerVentas()
-                const ventaExistente = ventas.find(v => v.nombre === nombre)
+                producto.stock -= cantidad;
+                producto.precioTotal = producto.stock * producto.precio;
+                localStorage.setItem('productos', JSON.stringify(productos));
+
+                const ventas = obtenerVentas();
+                const ventaExistente = ventas.find(v => v.id === producto.id || v.nombre === producto.nombre);
 
                 if (ventaExistente) {
-                    ventaExistente.cantidad += cantidad
+                    ventaExistente.cantidad += cantidad;
                 } else {
-                    ventas.push({ nombre, cantidad })
+                    ventas.push({ id: producto.id, nombre: producto.nombre, cantidad });
                 }
-                guardarVentas(ventas)
-                alert('Venta registrada')
+                guardarVentas(ventas);
+                alert('Venta registrada');
             } else {
-                alert('Stock insuficiente o producto no encontrado')
+                alert('Stock insuficiente o producto no encontrado');
             }
-        })
+            mostrarVentas();
+        });
     }
 
-    if (document.getElementById('listaProductos')) {
-        mostrarProductos()
+    if (formularioPago) {
+        formularioPago.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const pagoCliente = parseFloat(document.getElementById('pagoCliente').value);
+            const cambio = pagoCliente - totalDeLaVenta;
+            cambioCliente.textContent = `Cambio a Devolver: ${cambio.toFixed(2)}`;
+        });
     }
 
-    if (document.getElementById('listaVentas')) {
-        mostrarVentas()
+    if (confirmarCompra) {
+        confirmarCompra.addEventListener('click', () => {
+            guardarVentas([]);
+            mostrarVentas();
+            cambioCliente.textContent = `Cambio a Devolver: 0`;
+            alert('Compra confirmada');
+        });
     }
-})
+
+    if (otraVenta) {
+        otraVenta.addEventListener('click', () => {
+            guardarVentas([]);
+            mostrarVentas();
+            totalVenta.textContent = 'Total de la Venta: 0';
+            cambioCliente.textContent = 'Cambio a Devolver: 0';
+            alert('Lista de ventas limpia. Puedes iniciar otra venta.');
+        });
+    }
+
+    mostrarVentas();
+});
