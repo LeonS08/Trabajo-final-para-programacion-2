@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,54 +9,55 @@
 <body>
     <div id="stock">
         <button id="volverAdmin">Volver</button>
-        <div style="display: flex;">
-            <div style="flex: 1;">
-                <h2>Lista de Productos Almacenados</h2>
+        <h2>Stock</h2>
+        <div id="listasStock">
+            <div id="productosAlmacenados">
+                <h3>Productos Almacenados</h3>
                 <ul id="listaStock"></ul>
                 <p id="totalStock">Total Dinero: 0</p>
-                <h3>Agregar Producto</h3>
                 <form id="formAgregarProducto">
+                    <h3>Agregar Producto</h3>
                     <label for="nombreProducto">Nombre:</label>
                     <input type="text" id="nombreProducto" required>
                     <label for="cantidadProducto">Cantidad:</label>
                     <input type="number" id="cantidadProducto" required>
                     <label for="precioProducto">Precio por Unidad:</label>
-                    <input type="number" id="precioProducto" required>
+                    <input type="number" id="precioProducto" step="0.01" required>
                     <button type="submit">Agregar Producto</button>
                 </form>
-                <h3>Modificar Producto</h3>
                 <form id="formModificarProducto">
+                    <h3>Modificar Producto</h3>
                     <label for="idNombreModificar">ID o Nombre:</label>
                     <input type="text" id="idNombreModificar" required>
                     <label for="cantidadModificar">Cantidad:</label>
                     <input type="number" id="cantidadModificar">
                     <label for="precioModificar">Precio por Unidad:</label>
-                    <input type="number" id="precioModificar">
+                    <input type="number" id="precioModificar" step="0.01">
                     <button type="submit">Modificar Producto</button>
                 </form>
-                <h3>Eliminar Producto</h3>
                 <form id="formEliminarProducto">
+                    <h3>Eliminar Producto</h3>
                     <label for="idNombreEliminar">ID o Nombre:</label>
                     <input type="text" id="idNombreEliminar" required>
                     <button type="submit">Eliminar Producto</button>
                 </form>
             </div>
-            <div style="flex: 1;">
-                <h2>Lista de Ventas</h2>
+            <div id="productosVendidos">
+                <h3>Productos Vendidos</h3>
                 <ul id="listaVentas"></ul>
                 <p id="totalVentas">Total Ganancias: 0</p>
-                <h3>Modificar Venta</h3>
                 <form id="formModificarVenta">
+                    <h3>Modificar Venta</h3>
                     <label for="idNombreVenta">ID o Nombre:</label>
                     <input type="text" id="idNombreVenta" required>
                     <label for="cantidadVenta">Cantidad:</label>
                     <input type="number" id="cantidadVenta">
-                    <label for="precioVenta">Precio por Unidad:</label>
-                    <input type="number" id="precioVenta">
+                    <label for="precioVenta">Precio Total:</label>
+                    <input type="number" id="precioVenta" step="0.01">
                     <button type="submit">Modificar Venta</button>
                 </form>
-                <h3>Eliminar Venta</h3>
                 <form id="formEliminarVenta">
+                    <h3>Eliminar Venta</h3>
                     <label for="idNombreEliminarVenta">ID o Nombre:</label>
                     <input type="text" id="idNombreEliminarVenta" required>
                     <button type="submit">Eliminar Venta</button>

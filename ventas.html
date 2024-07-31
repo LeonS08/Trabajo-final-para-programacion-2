@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,9 +9,9 @@
 <body>
     <div id="ventas">
         <button id="volverVentas">Volver</button>
-        <h2>Panel de Ventas</h2>
+        <h2>Ventas</h2>
         <form id="formRegistrarProducto">
-            <h3>Registrar Venta</h3>
+            <h3>Registrar Producto</h3>
             <label for="nombreCliente">Nombre del Cliente:</label>
             <input type="text" id="nombreCliente" required>
             <label for="idNombreProducto">ID o Nombre del Producto:</label>
@@ -24,7 +24,7 @@
         <ul id="listaCarrito"></ul>
         <p id="totalCarrito">Total Carrito: 0</p>
         <label for="montoPago">Monto a Pagar:</label>
-        <input type="number" id="montoPago">
+        <input type="number" id="montoPago" step="0.01">
         <button id="confirmarCompra">Confirmar Compra</button>
         <p id="totalDevolver">Total a Devolver: 0</p>
     </div>

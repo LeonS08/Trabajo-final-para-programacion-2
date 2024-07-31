@@ -1,38 +1,38 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Empleados Registrados</title>
+    <title>Empleados</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div id="empleados">
-        <button id="volverAdminEmpleados">Volver</button>
-        <h2>Lista de Empleados</h2>
+        <h2>Empleados Registrados</h2>
         <ul id="listaEmpleados"></ul>
-        <h3>Agregar Empleado</h3>
         <form id="formAgregarEmpleado">
+            <h3>Agregar Empleado</h3>
             <label for="nombreEmpleado">Nombre:</label>
             <input type="text" id="nombreEmpleado" required>
             <label for="passwordEmpleado">Contraseña:</label>
             <input type="password" id="passwordEmpleado" required>
             <button type="submit">Agregar Empleado</button>
         </form>
-        <h3>Modificar Empleado</h3>
         <form id="formModificarEmpleado">
+            <h3>Modificar Empleado</h3>
             <label for="usuarioModificar">Usuario:</label>
             <input type="text" id="usuarioModificar" required>
             <label for="nuevaPasswordEmpleado">Nueva Contraseña:</label>
-            <input type="password" id="nuevaPasswordEmpleado">
+            <input type="password" id="nuevaPasswordEmpleado" required>
             <button type="submit">Modificar Empleado</button>
         </form>
-        <h3>Eliminar Empleado</h3>
         <form id="formEliminarEmpleado">
+            <h3>Eliminar Empleado</h3>
             <label for="usuarioEliminar">Usuario:</label>
             <input type="text" id="usuarioEliminar" required>
             <button type="submit">Eliminar Empleado</button>
         </form>
+        <button id="volverAdminEmpleados">Volver</button>
     </div>
     <script src="script.js"></script>
 </body>
