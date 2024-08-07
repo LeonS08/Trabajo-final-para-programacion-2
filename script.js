@@ -159,20 +159,27 @@ document.addEventListener('DOMContentLoaded', () => {
         totalVentas.textContent = `Total Ganancias: ${totalGanancias.toFixed(2)}`
     }
 
-    if (formAgregarProducto) {
-        formAgregarProducto.addEventListener('submit', (e) => {
-            e.preventDefault()
-            const nombre = document.getElementById('nombreProducto').value
-            const cantidad = parseInt(document.getElementById('cantidadProducto').value)
-            const precio = parseFloat(document.getElementById('precioProducto').value)
-            const productos = obtenerProductos()
-            const id = productos.length ? productos[productos.length - 1].id + 1 : 1
+if (formAgregarProducto) {
+    formAgregarProducto.addEventListener('submit', (e) => {
+        e.preventDefault()
+        const nombre = document.getElementById('nombreProducto').value;
+        const cantidad = parseInt(document.getElementById('cantidadProducto').value)
+        const precio = parseFloat(document.getElementById('precioProducto').value)
+        const productos = obtenerProductos()
+        
+        const productoExistente = productos.find(p => p.nombre === nombre)
+        if (productoExistente) {
+            alert('El nombre del producto ya existe en el stock.')
+            return
+        }
 
-            productos.push({ id, nombre, cantidad, precio, precioTotal: precio })
-            guardarProductos(productos)
-            mostrarProductos()
-        })
-    }
+        const id = productos.length ? productos[productos.length - 1].id + 1 : 1
+        productos.push({ id, nombre, cantidad, precio, precioTotal: precio })
+        guardarProductos(productos)
+        mostrarProductos()
+    })
+}
+
 
     if (formModificarProducto) {
         formModificarProducto.addEventListener('submit', (e) => {
@@ -229,26 +236,32 @@ document.addEventListener('DOMContentLoaded', () => {
         totalCarrito.textContent = `Total Carrito: ${total.toFixed(2)}`
     }
 
-    if (formRegistrarProducto) {
-        formRegistrarProducto.addEventListener('submit', (e) => {
-            e.preventDefault()
-            const nombreCliente = document.getElementById('nombreCliente').value
-            const idNombre = document.getElementById('idNombreProducto').value
-            const cantidad = parseInt(document.getElementById('cantidadProducto').value)
-            const productos = obtenerProductos()
-            const producto = productos.find(p => p.id == idNombre || p.nombre === idNombre)
+if (formRegistrarProducto) {
+    formRegistrarProducto.addEventListener('submit', (e) => {
+        e.preventDefault()
+        const idNombre = document.getElementById('idNombreProducto').value
+        const cantidad = parseInt(document.getElementById('cantidadProducto').value)
+        const productos = obtenerProductos()
+        const producto = productos.find(p => p.id == idNombre || p.nombre === idNombre)
 
-            if (producto) {
-                carritoCompra.push({
-                    id: producto.id,
-                    nombre: producto.nombre,
-                    cantidad: cantidad,
-                    precioTotal: producto.precio * cantidad
-                })
-                actualizarCarrito()
+        if (producto) {
+            const productoEnCarrito = carritoCompra.find(c => c.id === producto.id)
+            if (productoEnCarrito) {
+                alert('El producto ya está en el carrito.')
+                return
             }
-        })
-    }
+
+            carritoCompra.push({
+                id: producto.id,
+                nombre: producto.nombre,
+                cantidad: cantidad,
+                precioTotal: producto.precio * cantidad
+            })
+            actualizarCarrito()
+        }
+    })
+}
+
 
     if (confirmarCompra) {
         confirmarCompra.addEventListener('click', () => {
