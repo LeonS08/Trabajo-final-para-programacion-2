@@ -159,6 +159,43 @@ document.addEventListener('DOMContentLoaded', () => {
         totalVentas.textContent = `Total Ganancias: ${totalGanancias.toFixed(2)}`
     }
 
+if (formModificarVenta) {
+    formModificarVenta.addEventListener('submit', (e) => {
+        e.preventDefault()
+        const idNombre = document.getElementById('idNombreVentaModificar').value
+        const cantidad = parseInt(document.getElementById('cantidadVentaModificar').value)
+        const ventas = obtenerVentas()
+
+        const venta = ventas.find(v => v.id == idNombre || v.nombre === idNombre)
+
+        if (venta) {
+            if (cantidad >= 0) {
+                venta.cantidad = cantidad
+                venta.precioTotal = venta.precioTotal / (venta.cantidad || 1) * cantidad
+                guardarVentas(ventas)
+                mostrarVentas()
+            } else {
+                alert('La cantidad no puede ser negativa.')
+            }
+        } else {
+            alert('No se encontró la venta con el ID o nombre proporcionado.')
+        }
+    })
+}
+
+if (formEliminarVenta) {
+    formEliminarVenta.addEventListener('submit', (e) => {
+        e.preventDefault()
+        const idNombre = document.getElementById('idNombreVentaEliminar').value
+        let ventas = obtenerVentas()
+
+        ventas = ventas.filter(v => v.id != idNombre && v.nombre !== idNombre)
+        guardarVentas(ventas)
+        mostrarVentas()
+    })
+}
+
+
 if (formAgregarProducto) {
     formAgregarProducto.addEventListener('submit', (e) => {
         e.preventDefault()
